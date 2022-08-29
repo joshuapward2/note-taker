@@ -6,6 +6,11 @@ const path = require('path');
 
 let randomId = Math.floor(Math.random()*10000000)
 
+// Express middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
 //HTML Routes
 
 
