@@ -43,6 +43,16 @@ app.get('*', (req, res) => {
 app.use(express.static('public'));
 
 
+// Function to add Notes
+
+function addNote() {
+
+
+    // Write file
+
+    
+}
+
 
 
 
@@ -62,5 +72,13 @@ app.post('/api/notes', (req, res) =>{
 
 
 
+//Delete route
+
+
+
+
+
+
+// Server listening on port
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
