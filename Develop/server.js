@@ -1,14 +1,21 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const path = require('pat;h');
+const fs = require('fs');
+
 const notes = require('./db/db.json');
-const path = require('path');
 
 let randomId = Math.floor(Math.random()*10000000)
 
+
+const PORT = process.env || 3000;
+
+
+
 // Express middleware
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 
 //HTML Routes
@@ -25,10 +32,18 @@ app.get('/',(req, res) => {
     res.sendFile(path.join( __dirname, 'index.html'));
   
 });
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join( __dirname, 'index.html'));
+  
+})
   
 
 
 app.use(express.static('public'));
+
+
+
 
 
 //Api Routes
