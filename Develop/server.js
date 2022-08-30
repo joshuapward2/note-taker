@@ -41,15 +41,6 @@ app.get('/',(req, res) => {
 app.use(express.static('public'));
 
 
-// Function to add Notes
-
-function addNote() {
-    
-
-}
-
-
-
 
 //Api Routes
 
