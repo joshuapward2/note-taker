@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const path = require('pat;h');
+const path = require('path');
 const fs = require('fs');
 
 const notes = require('./db/db.json');
@@ -8,7 +8,9 @@ const notes = require('./db/db.json');
 let randomId = Math.floor(Math.random()*10000000)
 
 
-const PORT = process.env || 3000;
+const PORT = process.env.PORT || 3000;
+
+
 
 
 
@@ -23,21 +25,17 @@ app.use(express.json());
 
 app.get('/notes',(req, res) => {
     
-    res.sendFile(path.join( __dirname, 'notes.html'));
+    res.sendFile(path.join( __dirname, 'public/notes.html'));
   
 });
 
 app.get('/',(req, res) => {
     
-    res.sendFile(path.join( __dirname, 'index.html'));
+    res.sendFile(path.join( __dirname, 'public/index.html'));
   
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join( __dirname, 'index.html'));
-  
-})
-  
+
 
 
 app.use(express.static('public'));
@@ -46,11 +44,8 @@ app.use(express.static('public'));
 // Function to add Notes
 
 function addNote() {
-
-
-    // Write file
-
     
+
 }
 
 
@@ -60,11 +55,30 @@ function addNote() {
 
 
 app.get('/api/notes', (req, res) => {
-    res.json()
+    res.json(notes)
 });
 
 
 app.post('/api/notes', (req, res) =>{
+   
+    if(req.body) {
+        const addedNote = req.body;
+        req.body.id = Math.floor(Math.random()*100000000000)
+    notes.push(addedNote);
+
+    }
+
+    else{
+        res.send("Please enter a note")
+    }
+
+
+    // Write file
+fs.writeFileSync(
+    path.join(__dirname, './db/db.json'),
+    JSON.stringify(notes)
+)
+res.json(notes)
 
 } )
 
@@ -74,7 +88,24 @@ app.post('/api/notes', (req, res) =>{
 
 //Delete route
 
+app.delete('/api/notes/:id', (req, res) =>{
+    console.log(req)
+    for (let i = 0; i < notes.length; i++) {
+        if(notes[i].id == req.params.id) {
+            console.log(notes[i])
+            notes = notes.splice(i,1)
+            fs.writeFileSync(
+                path.join(__dirname, './db/db.json'),
+                JSON.stringify(notes)
+            )
+            
+            res.json(notes)
 
+        }
+       
+        
+    }
+})
 
 
 
